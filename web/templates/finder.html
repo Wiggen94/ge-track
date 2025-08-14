@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="/static/site.css" />
+</head>
+<body>
+  <h1>Flip Finder</h1>
+  <form method="get">
+    <label>Budget <input type="number" name="budget" value="{{ request.query_params.get('budget', '50000000') }}" /></label>
+    <label>Min ROI <input type="number" step="0.001" name="min_roi" value="{{ request.query_params.get('min_roi', '0.005') }}" /></label>
+    <label>Min Profit <input type="number" name="min_profit" value="{{ request.query_params.get('min_profit', '100') }}" /></label>
+    <label>Min 1h Vol <input type="number" name="min_vol" value="{{ request.query_params.get('min_vol', '300') }}" /></label>
+    <label>Max Fill h <input type="number" step="0.1" name="max_fill_h" value="{{ request.query_params.get('max_fill_h', '1.5') }}" /></label>
+    <label>Top <input type="number" name="top" value="{{ request.query_params.get('top', '20') }}" /></label>
+    <button type="submit">Update</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th><th>Buy</th><th>Sell</th><th>Qty</th>
+        <th>Unit Profit</th><th>Total Profit</th><th>ROI</th>
+        <th>Limit</th><th>1h Vol</th><th>Gp/h</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for s in suggestions %}
+      <tr>
+        <td><a href="/item/{{ s.item_id }}">{{ s.item_name }}</a></td>
+        <td>{{ s.buy_price_gp }}</td>
+        <td>{{ s.sell_price_gp }}</td>
+        <td>{{ s.quantity }}</td>
+        <td>{{ s.unit_profit_gp }}</td>
+        <td>{{ s.total_profit_gp }}</td>
+        <td>{{ '%.2f%%' % (s.unit_roi * 100) }}</td>
+        <td>{{ s.buy_limit or '-' }}</td>
+        <td>{{ s.hourly_volume }}</td>
+        <td>{{ '%.0f' % s.profit_per_hour_gp }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

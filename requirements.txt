@@ -1,0 +1,12 @@
+requests>=2.31.0,<3
+rich>=13.7.0,<14
+fastapi>=0.112.0,<1
+uvicorn[standard]>=0.30.0,<1
+Jinja2>=3.1.4,<4
+sqlmodel>=0.0.16,<0.1
+aiosqlite>=0.19.0,<1
+apscheduler>=3.10.4,<4
+python-dateutil>=2.9.0,<3
+itsdangerous>=2.2.0,<3
+passlib[bcrypt]>=1.7.4,<2
+python-multipart>=0.0.9,<1

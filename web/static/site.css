@@ -1,0 +1,9 @@
+body{font-family:system-ui,Arial,sans-serif;margin:20px;color:#eee;background:#111}
+a{color:#7dd3fc}
+h1,h2{color:#fff}
+label{margin-right:12px}
+input,button{margin-left:4px;margin-right:12px}
+ table{border-collapse:collapse;width:100%;background:#1a1a1a}
+ th,td{border:1px solid #333;padding:6px 8px;text-align:right}
+ th:first-child, td:first-child{text-align:left}
+ tr:nth-child(even){background:#151515}

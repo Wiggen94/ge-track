@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="/static/site.css" />
+</head>
+<body>
+  <h1>{{ title }}</h1>
+  <p><a href="/finder">Flip finder</a> · <a href="/items">Search items</a>
+  {% if user %} · Logged in as {{ user.email }} <form style="display:inline" action="/logout" method="post"><button>Logout</button></form>{% else %}
+  · <a href="/login">Login</a> / <a href="/signup">Sign up</a>{% endif %}
+  </p>
+
+  {% if user %}
+  <h2>Your Watchlist</h2>
+  <ul>
+    {% for w in watches %}
+      <li><a href="/item/{{ w.item_id }}">{{ w.item_name }}</a></li>
+    {% endfor %}
+  </ul>
+
+  <h2>Your Alerts</h2>
+  <ul>
+    {% for a in alerts %}
+      <li>{{ a.item_name }} {{ a.direction }} {{ a.target_price }} gp</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <h2>Suggestions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th><th>Buy</th><th>Sell</th><th>Qty</th>
+        <th>Unit Profit</th><th>Total Profit</th><th>ROI</th>
+        <th>Limit</th><th>1h Vol</th><th>Gp/h</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for s in suggestions %}
+      <tr>
+        <td><a href="/item/{{ s.item_id }}">{{ s.item_name }}</a></td>
+        <td>{{ s.buy_price_gp }}</td>
+        <td>{{ s.sell_price_gp }}</td>
+        <td>{{ s.quantity }}</td>
+        <td>{{ s.unit_profit_gp }}</td>
+        <td>{{ s.total_profit_gp }}</td>
+        <td>{{ '%.2f%%' % (s.unit_roi * 100) }}</td>
+        <td>{{ s.buy_limit or '-' }}</td>
+        <td>{{ s.hourly_volume }}</td>
+        <td>{{ '%.0f' % s.profit_per_hour_gp }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

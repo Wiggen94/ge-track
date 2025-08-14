@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="/static/site.css" />
+</head>
+<body>
+  <h1>{{ item.name }} ({{ item.item_id }})</h1>
+  <p>Buy limit: {{ item.buy_limit or '-' }}</p>
+
+  {% if user %}
+    <form method="post" action="/watch/{{ item.item_id }}">
+      <button type="submit">Add to Watchlist</button>
+    </form>
+    <h3>Create Alert</h3>
+    <form method="post" action="/alert/{{ item.item_id }}">
+      <label>Direction
+        <select name="direction">
+          <option value="below">below</option>
+          <option value="above">above</option>
+        </select>
+      </label>
+      <label>Price <input name="price" type="number"/></label>
+      <button type="submit">Add Alert</button>
+    </form>
+  {% else %}
+    <p><a href="/login">Login</a> to add to watchlist or create alerts.</p>
+  {% endif %}
+
+  <h2>Latest</h2>
+  <pre>{{ latest | tojson(indent=2) }}</pre>
+
+  <h2>1h Averages</h2>
+  <pre>{{ hour | tojson(indent=2) }}</pre>
+
+  <h2>Timeseries (1h)</h2>
+  <table>
+    <thead><tr><th>Time</th><th>Avg High</th><th>Avg Low</th></tr></thead>
+    <tbody>
+      {% for row in (timeseries|default([]))[:50] %}
+        <tr>
+          <td>{{ row.timestamp }}</td>
+          <td>{{ row.avgHighPrice }}</td>
+          <td>{{ row.avgLowPrice }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p><a href="/">Home</a></p>
+</body>
+</html>
